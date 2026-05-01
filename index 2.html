@@ -1,0 +1,752 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eddy Fitness Club — Where Ordinary Bodies Become Unstoppable</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600;700&family=Barlow+Condensed:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root{--black:#000;--dark:#0a0a0a;--card:#111;--border:rgba(255,255,255,.06);--border-hover:rgba(255,77,0,.3);--text:#fff;--text-sec:#a0a0a0;--text-muted:#555;--orange:#FF4D00;--orange-glow:rgba(255,77,0,.25);--silver:#C0C0C0;--silver-dark:#888;--green:#22C55E;--red:#EF4444;--yellow:#F59E0B}
+        *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+        html{scroll-behavior:smooth;font-size:16px;-webkit-font-smoothing:antialiased}
+        body{font-family:'Inter',sans-serif;background:var(--black);color:var(--text);overflow-x:hidden;line-height:1.6}
+        ::selection{background:var(--orange);color:var(--black)}
+        img{max-width:100%;display:block}a{text-decoration:none;color:inherit}
+        ::-webkit-scrollbar{width:5px}::-webkit-scrollbar-track{background:var(--black)}::-webkit-scrollbar-thumb{background:var(--orange);border-radius:3px}
+        .container{max-width:1280px;margin:0 auto;padding:0 24px}
+        body::after{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.025'/%3E%3C/svg%3E");pointer-events:none;z-index:99999}
+        .label{font-family:'Barlow Condensed',sans-serif;font-weight:500;font-size:.7rem;letter-spacing:4px;text-transform:uppercase;color:var(--orange);display:flex;align-items:center;gap:10px;margin-bottom:12px}
+        .label::before{content:'';width:20px;height:1px;background:var(--orange)}
+        .label.center{justify-content:center}.label.center::before{display:none}
+        .heading{font-family:'Oswald',sans-serif;font-weight:700;text-transform:uppercase;line-height:.95;letter-spacing:-.5px}
+        .heading span{color:var(--orange)}
+        .body-text{font-family:'Barlow Condensed',sans-serif;font-weight:300;font-size:1.05rem;color:var(--text-sec);line-height:1.7}
+        .btn{display:inline-flex;align-items:center;gap:10px;font-family:'Oswald',sans-serif;font-weight:700;font-size:.85rem;letter-spacing:2px;text-transform:uppercase;border:none;cursor:pointer;transition:all .35s cubic-bezier(.4,0,.2,1);position:relative;overflow:hidden}
+        .btn-primary{padding:16px 36px;background:var(--orange);color:var(--black);clip-path:polygon(0 0,calc(100% - 10px) 0,100% 10px,100% 100%,10px 100%,0 calc(100% - 10px))}
+        .btn-primary::before{content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.25),transparent);transition:left .5s}
+        .btn-primary:hover::before{left:100%}
+        .btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 30px var(--orange-glow)}
+        .btn-outline{padding:14px 32px;background:transparent;color:var(--text);border:1px solid rgba(255,255,255,.15)}
+        .btn-outline:hover{border-color:var(--orange);color:var(--orange)}
+        .btn-sm{padding:10px 20px;font-size:.75rem;letter-spacing:1.5px}
+
+        #preloader{position:fixed;inset:0;background:var(--black);z-index:100000;display:flex;flex-direction:column;align-items:center;justify-content:center;transition:opacity .5s,visibility .5s}
+        #preloader.done{opacity:0;visibility:hidden;pointer-events:none}
+        .pre-text{font-family:'Oswald',sans-serif;font-size:2.2rem;font-weight:700;letter-spacing:8px;text-transform:uppercase;margin-bottom:24px}
+        .pre-text span{color:var(--orange)}
+        .pre-bar{width:180px;height:2px;background:#1a1a1a;overflow:hidden;border-radius:1px}
+        .pre-bar-fill{height:100%;width:0;background:var(--orange);animation:fill 1.8s ease forwards}
+        @keyframes fill{to{width:100%}}
+
+        .nav{position:fixed;top:0;left:0;width:100%;z-index:10000;height:72px;display:flex;align-items:center;justify-content:space-between;padding:0 32px;background:rgba(0,0,0,.3);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);transition:all .35s}
+        .nav.sticky{background:rgba(0,0,0,.92);height:62px}
+        .nav-brand{display:flex;align-items:center;gap:10px}
+        .nav-brand-icon{width:38px;height:38px;background:var(--orange);display:flex;align-items:center;justify-content:center;font-family:'Oswald',sans-serif;font-weight:700;font-size:1.1rem;color:var(--black);clip-path:polygon(0 0,calc(100% - 6px) 0,100% 6px,100% 100%,6px 100%,0 calc(100% - 6px))}
+        .nav-brand-text{font-family:'Oswald',sans-serif;font-weight:700;font-size:1.1rem;letter-spacing:3px;text-transform:uppercase}
+        .nav-brand-text span{color:var(--orange)}
+        .nav-links{display:flex;align-items:center;gap:28px;list-style:none}
+        .nav-links a{font-family:'Barlow Condensed',sans-serif;font-weight:500;font-size:.75rem;letter-spacing:2px;text-transform:uppercase;color:var(--text-sec);position:relative;padding:4px 0;transition:color .2s}
+        .nav-links a::after{content:'';position:absolute;bottom:-2px;left:0;width:0;height:1px;background:var(--orange);transition:width .3s}
+        .nav-links a:hover{color:var(--text)}.nav-links a:hover::after{width:100%}
+        .nav-book{padding:8px 20px!important;background:var(--orange)!important;color:var(--black)!important;font-weight:700!important;clip-path:polygon(0 0,calc(100% - 6px) 0,100% 6px,100% 100%,6px 100%,0 calc(100% - 6px))!important}
+        .nav-book:hover{box-shadow:0 4px 16px var(--orange-glow)!important}
+        .nav-book::after{display:none!important}
+        .nav-rating{display:flex;align-items:center;gap:4px;font-size:.7rem;color:var(--silver);margin-left:6px}
+        .nav-rating svg{width:10px;height:10px;fill:var(--orange)}
+        .nav-hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;z-index:10001;padding:4px}
+        .nav-hamburger span{width:22px;height:2px;background:var(--text);transition:all .25s;display:block}
+        .nav-hamburger.open span:nth-child(1){transform:rotate(45deg) translate(5px,5px)}
+        .nav-hamburger.open span:nth-child(2){opacity:0}
+        .nav-hamburger.open span:nth-child(3){transform:rotate(-45deg) translate(5px,-5px)}
+
+        .hero{position:relative;min-height:100vh;display:flex;align-items:flex-end;padding-bottom:80px;overflow:hidden}
+        .hero-bg{position:absolute;inset:0;z-index:0}
+        .hero-bg img{width:100%;height:100%;object-fit:cover;filter:grayscale(60%) contrast(1.25) brightness(.3)}
+        .hero-bg::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.4) 0%,rgba(0,0,0,.1) 40%,rgba(0,0,0,.75) 80%,rgba(0,0,0,.98) 100%)}
+        .hero-inner{position:relative;z-index:2;width:100%}
+        .hero-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:60px;align-items:end}
+        .hero-eyebrow{font-family:'Barlow Condensed',sans-serif;font-weight:400;font-size:.75rem;letter-spacing:5px;text-transform:uppercase;color:var(--orange);margin-bottom:20px;display:flex;align-items:center;gap:10px}
+        .hero-eyebrow::before{content:'';width:36px;height:1px;background:var(--orange)}
+        .hero-title{font-family:'Oswald',sans-serif;font-weight:700;font-size:clamp(2.8rem,6.5vw,5.5rem);line-height:.92;text-transform:uppercase;letter-spacing:-2px;margin-bottom:20px}
+        .hero-title .outline{-webkit-text-stroke:1.5px var(--text);color:transparent}
+        .hero-title .accent{color:var(--orange)}
+        .hero-desc{font-family:'Barlow Condensed',sans-serif;font-weight:300;font-size:1.1rem;color:var(--text-sec);max-width:460px;line-height:1.65;margin-bottom:32px}
+        .hero-btns{display:flex;gap:14px;flex-wrap:wrap}
+        .hero-stats{display:flex;gap:32px;justify-content:flex-end;flex-wrap:wrap}
+        .hero-stat{text-align:center;padding:20px 0;border-top:1px solid rgba(255,255,255,.08);min-width:90px}
+        .hero-stat-num{font-family:'Oswald',sans-serif;font-weight:700;font-size:2.4rem;color:var(--orange);line-height:1}
+        .hero-stat-lbl{font-family:'Barlow Condensed',sans-serif;font-weight:400;font-size:.65rem;letter-spacing:2px;text-transform:uppercase;color:var(--text-muted);margin-top:4px}
+        .hero-scroll{position:absolute;bottom:28px;left:50%;transform:translateX(-50%);z-index:3;display:flex;flex-direction:column;align-items:center;gap:6px;animation:bounce 2s infinite}
+        .hero-scroll span{font-family:'Barlow Condensed',sans-serif;font-size:.6rem;letter-spacing:3px;text-transform:uppercase;color:var(--text-muted)}
+        .hero-scroll i{width:1px;height:36px;background:linear-gradient(180deg,var(--orange),transparent)}
+        @keyframes bounce{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(8px)}}
+
+        .trust-strip{padding:40px 0;background:var(--dark);border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+        .trust-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:0}
+        .trust-item{padding:12px 24px;border-right:1px solid var(--border);display:flex;flex-direction:column;gap:6px}
+        .trust-item:last-child{border-right:none}
+        .trust-icon{font-size:1.4rem}
+        .trust-title{font-family:'Oswald',sans-serif;font-weight:600;font-size:.9rem;text-transform:uppercase;letter-spacing:1px}
+        .trust-desc{font-family:'Barlow Condensed',sans-serif;font-weight:300;font-size:.8rem;color:var(--text-muted);line-height:1.4}
+
+        .sec{padding:90px 0;position:relative}.sec-dark{background:var(--dark)}.sec-black{background:var(--black)}
+
+        .about-grid{display:grid;grid-template-columns:1fr 1.2fr;gap:70px;align-items:center}
+        .about-img-wrap{position:relative}
+        .about-img{width:100%;aspect-ratio:3/4;object-fit:cover;filter:grayscale(50%) contrast(1.15);transition:filter .6s}
+        .about-img:hover{filter:grayscale(25%) contrast(1.05)}
+        .about-badge{position:absolute;bottom:-16px;right:-16px;width:120px;height:120px;background:var(--orange);display:flex;flex-direction:column;align-items:center;justify-content:center;clip-path:polygon(0 0,calc(100% - 14px) 0,100% 14px,100% 100%,14px 100%,0 calc(100% - 14px))}
+        .about-badge .num{font-family:'Oswald',sans-serif;font-weight:700;font-size:2.2rem;color:var(--black);line-height:1}
+        .about-badge .txt{font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:.55rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--black)}
+        .about-quote{font-family:'Oswald',sans-serif;font-weight:600;font-size:1.2rem;color:var(--orange);text-transform:uppercase;letter-spacing:1px;border-left:3px solid var(--orange);padding-left:16px;margin:24px 0!important}
+        .about-feats{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:24px}
+        .about-feat{display:flex;align-items:center;gap:8px;font-family:'Barlow Condensed',sans-serif;font-weight:500;font-size:.8rem;letter-spacing:1px;text-transform:uppercase;color:var(--silver)}
+        .about-feat::before{content:'▸';color:var(--orange);font-size:.65rem}
+
+        .gallery-scroll{display:flex;gap:8px;overflow-x:auto;scroll-snap-type:x mandatory;-ms-overflow-style:none;scrollbar-width:none;padding:4px 0 12px;cursor:grab}
+        .gallery-scroll::-webkit-scrollbar{display:none}
+        .gallery-scroll:active{cursor:grabbing}
+        .gallery-item{flex:0 0 260px;aspect-ratio:1;scroll-snap-align:start;overflow:hidden;position:relative}
+        .gallery-item img{width:100%;height:100%;object-fit:cover;filter:grayscale(40%) contrast(1.1);transition:all .5s}
+        .gallery-item:hover img{filter:grayscale(0%);transform:scale(1.06)}
+        .gallery-item::after{content:'';position:absolute;inset:0;background:linear-gradient(0deg,rgba(0,0,0,.5) 0%,transparent 50%);pointer-events:none}
+
+        .programs-tabs,.plan-tabs{display:flex;justify-content:center;gap:6px;margin-bottom:40px;flex-wrap:wrap}
+        .p-tab,.plan-tab{padding:10px 24px;font-family:'Oswald',sans-serif;font-weight:600;font-size:.75rem;letter-spacing:2px;text-transform:uppercase;color:var(--text-muted);background:#151515;border:1px solid var(--border);cursor:pointer;transition:all .2s}
+        .p-tab.active,.p-tab:hover,.plan-tab.active,.plan-tab:hover{background:var(--orange);color:var(--black);border-color:var(--orange)}
+        .programs-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+        .p-card{background:linear-gradient(145deg,#161616,#111);border:1px solid var(--border);overflow:hidden;transition:all .35s}
+        .p-card:hover{border-color:var(--border-hover);transform:translateY(-4px);box-shadow:0 12px 40px rgba(0,0,0,.5)}
+        .p-card-img{width:100%;height:180px;object-fit:cover;filter:grayscale(40%) contrast(1.2) brightness(.7);transition:filter .4s}
+        .p-card:hover .p-card-img{filter:grayscale(15%) brightness(.85)}
+        .p-card-body{padding:22px 20px}
+        .p-card-goal{font-family:'Barlow Condensed',sans-serif;font-weight:500;font-size:.6rem;letter-spacing:3px;text-transform:uppercase;color:var(--orange);margin-bottom:6px}
+        .p-card-title{font-family:'Oswald',sans-serif;font-weight:700;font-size:1.25rem;text-transform:uppercase;margin-bottom:8px}
+        .p-card-desc{font-family:'Barlow Condensed',sans-serif;font-weight:300;font-size:.85rem;color:var(--text-muted);line-height:1.5;margin-bottom:16px}
+        .p-card-meta{display:flex;gap:16px;padding-top:14px;border-top:1px solid var(--border)}
+        .p-card-meta span{font-family:'Barlow Condensed',sans-serif;font-weight:500;font-size:.65rem;letter-spacing:1px;text-transform:uppercase;color:var(--silver-dark)}
+        .p-card-meta span strong{color:var(--text);font-weight:600}
+
+        .plan-table-wrap{overflow-x:auto}
+        .plan-table{width:100%;border-collapse:collapse;font-family:'Barlow Condensed',sans-serif}
+        .plan-table th{font-weight:600;font-size:.65rem;letter-spacing:2px;text-transform:uppercase;color:var(--orange);padding:14px 12px;border-bottom:1px solid var(--border);text-align:left;white-space:nowrap}
+        .plan-table td{font-weight:400;font-size:.82rem;color:var(--text-sec);padding:12px;border-bottom:1px solid var(--border);transition:background .2s;vertical-align:top}
+        .plan-table tr:hover td{background:rgba(255,77,0,.03)}
+        .plan-table .day-cell{font-weight:700;color:var(--text);letter-spacing:1px;text-transform:uppercase;white-space:nowrap;font-size:.75rem}
+        .plan-table .exercise-name{font-weight:600;color:var(--text);display:block;margin-bottom:2px}
+        .plan-table .exercise-detail{color:var(--text-muted);font-size:.75rem}
+        .plan-badge{display:inline-block;padding:2px 7px;font-size:.55rem;letter-spacing:1.5px;text-transform:uppercase;font-weight:600}
+        .plan-badge.chest{background:rgba(255,77,0,.12);color:var(--orange)}
+        .plan-badge.back{background:rgba(192,192,192,.08);color:var(--silver)}
+        .plan-badge.legs{background:rgba(34,197,94,.1);color:var(--green)}
+        .plan-badge.shoulder{background:rgba(245,158,11,.1);color:var(--yellow)}
+        .plan-badge.arms{background:rgba(239,68,68,.1);color:var(--red)}
+        .plan-badge.core{background:rgba(255,255,255,.05);color:var(--text-muted)}
+        .plan-badge.rest{background:rgba(255,255,255,.03);color:var(--text-muted)}
+        .plan-badge.cardio{background:rgba(239,68,68,.1);color:var(--red)}
+        .plan-note{text-align:center;margin-top:20px;font-family:'Barlow Condensed',sans-serif;font-weight:300;font-size:.78rem;color:var(--text-muted)}
+
+        .diet-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px}
+        .diet-card{background:linear-gradient(145deg,#151515,#111);border:1px solid var(--border);overflow:hidden;transition:border-color .3s}
+        .diet-card:hover{border-color:var(--border-hover)}
+        .diet-card-header{padding:16px 20px;background:rgba(255,77,0,.06);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+        .diet-card-time{font-family:'Oswald',sans-serif;font-weight:700;font-size:1rem;text-transform:uppercase;letter-spacing:1px}
+        .diet-card-clock{font-family:'Barlow Condensed',sans-serif;font-size:.7rem;color:var(--text-muted);letter-spacing:1px}
+        .diet-card-body{padding:16px 20px}
+        .diet-item{display:flex;justify-content:space-between;align-items:flex-start;padding:8px 0;border-bottom:1px solid rgba(255,255,255,.03)}
+        .diet-item:last-child{border-bottom:none}
+        .diet-item-name{font-family:'Barlow Condensed',sans-serif;font-weight:500;font-size:.85rem;color:var(--text)}
+        .diet-item-qty{font-family:'Barlow Condensed',sans-serif;font-weight:300;font-size:.75rem;color:var(--text-muted);white-space:nowrap;margin-left:12px}
+        .diet-item-protein{font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:.7rem;color:var(--orange);white-space:nowrap;margin-left:12px}
+        .diet-total{padding:12px 20px;background:rgba(0,0,0,.3);border-top:1px solid var(--border);display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px}
+        .diet-total-item{font-family:'Barlow Condensed',sans-serif;font-size:.7rem;letter-spacing:1px;text-transform:uppercase;color:var(--text-muted)}
+        .diet-total-item strong{color:var(--text)}
+        .diet-legend{display:flex;gap:20px;justify-content:center;flex-wrap:wrap;margin-top:24px}
+        .diet-legend-item{display:flex;align-items:center;gap:6px;font-family:'Barlow Condensed',sans-serif;font-size:.75rem;color:var(--text-muted)}
+        .diet-legend-dot{width:8px;height:8px}
+
+        .coaches-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+        .coach-card{background:var(--card);border:1px solid var(--border);overflow:hidden;transition:all .35s}
+        .coach-card:hover{border-color:var(--border-hover);transform:translateY(-4px)}
+        .coach-img-wrap{position:relative;overflow:hidden;aspect-ratio:3/4}
+        .coach-img-wrap img{width:100%;height:100%;object-fit:cover;filter:grayscale(60%) contrast(1.15);transition:all .5s}
+        .coach-card:hover .coach-img-wrap img{filter:grayscale(20%);transform:scale(1.04)}
+        .coach-img-wrap::after{content:'';position:absolute;inset:0;background:linear-gradient(0deg,rgba(0,0,0,.85) 0%,transparent 55%)}
+        .coach-num{position:absolute;top:14px;right:14px;font-family:'Oswald',sans-serif;font-weight:700;font-size:2.5rem;color:rgba(255,255,255,.06);line-height:1}
+        .coach-info{padding:20px}
+        .coach-name{font-family:'Oswald',sans-serif;font-weight:700;font-size:1.15rem;text-transform:uppercase;letter-spacing:.5px;margin-bottom:3px}
+        .coach-role{font-family:'Barlow Condensed',sans-serif;font-weight:400;font-size:.7rem;color:var(--orange);text-transform:uppercase;letter-spacing:2px;margin-bottom:10px}
+        .coach-certs{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:10px}
+        .coach-cert{padding:3px 8px;font-family:'Barlow Condensed',sans-serif;font-weight:500;font-size:.6rem;letter-spacing:1px;text-transform:uppercase;color:var(--silver);border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.02)}
+        .coach-bio{font-family:'Barlow Condensed',sans-serif;font-weight:300;font-size:.8rem;color:var(--text-muted);line-height:1.5}
+
+        .test-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:36px;flex-wrap:wrap;gap:20px}
+        .test-rating{display:flex;align-items:center;gap:12px}
+        .test-rating-num{font-family:'Oswald',sans-serif;font-weight:700;font-size:2.8rem;color:var(--orange);line-height:1}
+        .test-stars{display:flex;gap:2px;margin-bottom:2px}.test-stars svg{width:13px;height:13px;fill:var(--orange)}
+        .test-count{font-family:'Barlow Condensed',sans-serif;font-size:.7rem;color:var(--text-muted);letter-spacing:1px}
+        .test-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+        .test-card{background:var(--card);border:1px solid var(--border);padding:24px 20px;transition:border-color .2s}
+        .test-card:hover{border-color:var(--border-hover)}
+        .test-card-stars{display:flex;gap:2px;margin-bottom:10px}.test-card-stars svg{width:11px;height:11px;fill:var(--orange)}
+        .test-card-quote{font-family:'Barlow Condensed',sans-serif;font-weight:300;font-size:.9rem;color:var(--text-sec);line-height:1.6;margin-bottom:16px;font-style:italic}
+        .test-card-author{display:flex;align-items:center;gap:10px}
+        .test-card-avatar{width:36px;height:36px;border-radius:50%;background:#1a1a1a;display:flex;align-items:center;justify-content:center;font-family:'Oswald',sans-serif;font-weight:700;font-size:.8rem;color:var(--orange)}
+        .test-card-name{font-family:'Oswald',sans-serif;font-weight:600;font-size:.8rem;text-transform:uppercase;letter-spacing:.5px}
+        .test-card-label{font-family:'Barlow Condensed',sans-serif;font-size:.65rem;color:var(--text-muted);letter-spacing:1px}
+
+        .pricing-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+        .price-card{background:linear-gradient(160deg,#151515,#0e0e0e);border:1px solid var(--border);padding:32px 24px;transition:all .35s;position:relative;overflow:hidden}
+        .price-card.featured{border-color:var(--orange);background:linear-gradient(160deg,#1a1008,#0e0e0e)}
+        .price-card.featured::before{content:'MOST POPULAR';position:absolute;top:0;right:0;padding:6px 14px;background:var(--orange);color:var(--black);font-family:'Oswald',sans-serif;font-weight:700;font-size:.6rem;letter-spacing:2px}
+        .price-card:hover{transform:translateY(-4px);box-shadow:0 12px 40px rgba(0,0,0,.4)}
+        .price-name{font-family:'Oswald',sans-serif;font-weight:700;font-size:1.1rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px}
+        .price-desc{font-family:'Barlow Condensed',sans-serif;font-weight:300;font-size:.82rem;color:var(--text-muted);margin-bottom:20px}
+        .price-amount{font-family:'Oswald',sans-serif;font-weight:700;font-size:2.5rem;color:var(--orange);margin-bottom:4px}
+        .price-amount span{font-size:1rem;color:var(--text-muted);font-weight:400}
+        .price-period{font-family:'Barlow Condensed',sans-serif;font-size:.7rem;color:var(--text-muted);letter-spacing:1px;margin-bottom:24px}
+        .price-features{list-style:none;margin-bottom:24px}
+        .price-features li{font-family:'Barlow Condensed',sans-serif;font-weight:400;font-size:.82rem;color:var(--text-sec);padding:7px 0;border-bottom:1px solid rgba(255,255,255,.03);display:flex;align-items:center;gap:8px}
+        .price-features li::before{content:'✓';color:var(--orange);font-weight:700;font-size:.75rem}
+        .price-features li.disabled{color:var(--text-muted)}.price-features li.disabled::before{content:'—';color:var(--text-muted)}
+        .price-card .btn{width:100%;justify-content:center}
+
+        .cta-sec{padding:90px 0;background:var(--dark);position:relative;overflow:hidden}
+        .cta-sec::before{content:'';position:absolute;top:-40%;left:-10%;width:45%;height:180%;background:radial-gradient(ellipse,rgba(255,77,0,.05) 0%,transparent 65%);pointer-events:none}
+        .cta-box{position:relative;border:1px solid var(--border-hover);background:linear-gradient(135deg,rgba(255,77,0,.03) 0%,transparent 50%);padding:64px 48px;display:grid;grid-template-columns:1.1fr 1fr;gap:48px;align-items:center;clip-path:polygon(0 0,calc(100% - 20px) 0,100% 20px,100% 100%,20px 100%,0 calc(100% - 20px))}
+        .cta-form{background:rgba(0,0,0,.35);border:1px solid var(--border);padding:28px}
+        .cta-form-title{font-family:'Oswald',sans-serif;font-weight:700;font-size:1.1rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:20px;text-align:center}
+        .form-group{margin-bottom:12px}
+        .form-group label{display:block;font-family:'Barlow Condensed',sans-serif;font-weight:500;font-size:.65rem;letter-spacing:2px;text-transform:uppercase;color:var(--text-muted);margin-bottom:4px}
+        .form-group input,.form-group select{width:100%;padding:10px 12px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);color:var(--text);font-family:'Barlow Condensed',sans-serif;font-size:.88rem;outline:none;transition:border-color .2s}
+        .form-group input::placeholder{color:var(--text-muted)}
+        .form-group input:focus,.form-group select:focus{border-color:var(--orange)}
+        .form-group select option{background:#1a1a1a}
+        .form-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+        .cta-form .btn{width:100%;justify-content:center;margin-top:4px;padding:14px;font-size:.9rem}
+
+        .loc-grid{display:grid;grid-template-columns:1fr 1fr;gap:32px;align-items:center}
+        .loc-map{width:100%;aspect-ratio:16/10;background:#111;border:1px solid var(--border);overflow:hidden}
+        .loc-map iframe{width:100%;height:100%;border:none;filter:grayscale(80%) invert(92%) contrast(90%)}
+        .loc-detail{display:flex;gap:12px;margin-bottom:14px;align-items:flex-start}
+        .loc-icon{width:34px;height:34px;display:flex;align-items:center;justify-content:center;background:rgba(255,77,0,.06);border:1px solid rgba(255,77,0,.15);flex-shrink:0;font-size:.85rem}
+        .loc-label{font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:.65rem;letter-spacing:2px;text-transform:uppercase;color:var(--text-muted);margin-bottom:1px}
+        .loc-value{font-family:'Barlow Condensed',sans-serif;font-weight:400;font-size:.88rem;color:var(--text-sec);line-height:1.4}
+        .loc-value a{color:var(--orange)}.loc-value a:hover{text-decoration:underline}
+        .branches{margin-top:20px;padding-top:16px;border-top:1px solid var(--border)}
+        .branches h4{font-family:'Oswald',sans-serif;font-weight:600;font-size:.8rem;text-transform:uppercase;letter-spacing:1px;color:var(--orange);margin-bottom:10px}
+        .branch-item{display:flex;align-items:center;gap:6px;margin-bottom:6px;font-family:'Barlow Condensed',sans-serif;font-size:.82rem;color:var(--text-muted)}
+        .branch-item::before{content:'▸';color:var(--orange);font-size:.55rem}
+
+        .footer{padding:48px 0 24px;background:var(--dark);border-top:1px solid var(--border)}
+        .footer-grid{display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr;gap:32px;margin-bottom:32px}
+        .footer-name{font-family:'Oswald',sans-serif;font-weight:700;font-size:1.15rem;letter-spacing:3px;text-transform:uppercase;margin-bottom:10px}
+        .footer-name span{color:var(--orange)}
+        .footer-desc{font-family:'Barlow Condensed',sans-serif;font-weight:300;font-size:.82rem;color:var(--text-muted);line-height:1.6;margin-bottom:16px}
+        .footer-social{display:flex;gap:8px}
+        .footer-social a{width:34px;height:34px;display:flex;align-items:center;justify-content:center;border:1px solid rgba(255,255,255,.08);color:var(--text-muted);font-size:.75rem;transition:all .2s}
+        .footer-social a:hover{border-color:var(--orange);color:var(--orange)}
+        .footer-col-title{font-family:'Oswald',sans-serif;font-weight:700;font-size:.78rem;letter-spacing:2px;text-transform:uppercase;margin-bottom:14px}
+        .footer-links{list-style:none}.footer-links li{margin-bottom:8px}
+        .footer-links a{font-family:'Barlow Condensed',sans-serif;font-size:.82rem;color:var(--text-muted);display:flex;align-items:center;gap:5px;transition:color .2s}
+        .footer-links a:hover{color:var(--orange)}
+        .footer-links a::before{content:'›';opacity:0;color:var(--orange);transition:opacity .2s}
+        .footer-links a:hover::before{opacity:1}
+        .footer-bottom{padding-top:24px;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center}
+        .footer-bottom-text{font-family:'Barlow Condensed',sans-serif;font-size:.7rem;color:var(--text-muted);letter-spacing:1px}
+        .footer-bottom-text span{color:var(--orange)}
+
+        .float-wa{position:fixed;bottom:22px;right:22px;width:52px;height:52px;background:#25D366;border-radius:50%;display:flex;align-items:center;justify-content:center;z-index:9998;box-shadow:0 4px 20px rgba(37,211,102,.3);transition:all .2s;cursor:pointer}
+        .float-wa:hover{transform:scale(1.08)}
+        .float-wa svg{width:26px;height:26px;fill:#fff}
+        .float-top{position:fixed;bottom:82px;right:26px;width:38px;height:38px;background:rgba(255,77,0,.12);border:1px solid rgba(255,77,0,.2);display:flex;align-items:center;justify-content:center;z-index:9998;opacity:0;visibility:hidden;transition:all .2s;cursor:pointer;color:var(--orange);font-size:.85rem}
+        .float-top.show{opacity:1;visibility:visible}
+        .float-top:hover{background:var(--orange);color:var(--black)}
+
+        .reveal{opacity:0;transform:translateY(28px);transition:opacity .6s ease,transform .6s ease}
+        .reveal.vis{opacity:1;transform:translateY(0)}
+        .reveal-l{opacity:0;transform:translateX(-30px);transition:opacity .6s ease,transform .6s ease}
+        .reveal-l.vis{opacity:1;transform:translateX(0)}
+        .reveal-r{opacity:0;transform:translateX(30px);transition:opacity .6s ease,transform .6s ease}
+        .reveal-r.vis{opacity:1;transform:translateX(0)}
+
+        @media(max-width:1024px){
+            .hero-grid{grid-template-columns:1fr;gap:32px}.hero-stats{justify-content:flex-start}
+            .about-grid{grid-template-columns:1fr;gap:32px}
+            .programs-grid,.coaches-grid,.test-grid,.pricing-grid{grid-template-columns:repeat(2,1fr)}
+            .cta-box{grid-template-columns:1fr;padding:40px 28px;clip-path:none}
+            .loc-grid,.footer-grid{grid-template-columns:1fr 1fr}
+            .trust-grid{grid-template-columns:1fr 1fr}.trust-item{border-right:none;border-bottom:1px solid var(--border)}
+        }
+        @media(max-width:768px){
+            .nav{padding:0 16px}.nav-links{display:none}
+            .nav-links.open{display:flex;flex-direction:column;position:fixed;inset:0;background:rgba(0,0,0,.97);justify-content:center;align-items:center;gap:20px;z-index:10000}
+            .nav-links.open a{font-size:1.1rem;letter-spacing:4px}
+            .nav-hamburger{display:flex}.nav-rating{display:none}
+            .programs-grid,.coaches-grid,.test-grid,.pricing-grid,.footer-grid,.trust-grid{grid-template-columns:1fr}
+            .form-row{grid-template-columns:1fr}.footer-bottom{flex-direction:column;gap:8px;text-align:center}
+            .gallery-item{flex:0 0 200px}
+        }
+        @media(max-width:480px){
+            .hero{padding-bottom:60px}.hero-stats{flex-wrap:wrap;gap:16px}.hero-stat{min-width:70px}
+            .cta-box{padding:28px 18px}
+            .plan-table th,.plan-table td{padding:8px 6px;font-size:.72rem}
+        }
+    </style>
+</head>
+<body>
+
+<div id="preloader">
+    <div class="pre-text">EDDY <span>FITNESS</span></div>
+    <div class="pre-bar"><div class="pre-bar-fill"></div></div>
+</div>
+
+<nav class="nav" id="nav">
+    <div class="nav-brand">
+        <div class="nav-brand-icon">E</div>
+        <div class="nav-brand-text">EDDY <span>FITNESS</span></div>
+        <div class="nav-rating"><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg> 4.8</div>
+    </div>
+    <ul class="nav-links" id="navLinks">
+        <li><a href="#about">About</a></li>
+        <li><a href="#programs">Programs</a></li>
+        <li><a href="#training">Training</a></li>
+        <li><a href="#diet">Diet Plan</a></li>
+        <li><a href="#coaches">Coaches</a></li>
+        <li><a href="#pricing">Pricing</a></li>
+        <li><a href="#contact">Contact</a></li>
+        <li><a href="#book" class="nav-book">BOOK TRIAL</a></li>
+    </ul>
+    <div class="nav-hamburger" id="hamburger" onclick="toggleNav()"><span></span><span></span><span></span></div>
+</nav>
+
+<section class="hero" id="home">
+    <div class="hero-bg"><img src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=1600&q=80" alt="Gym Interior"></div>
+    <div class="hero-inner container">
+        <div class="hero-grid">
+            <div>
+                <div class="hero-eyebrow">Est. Doiwala, Dehradun</div>
+                <h1 class="hero-title">WHERE<br><span class="outline">ORDINARY</span> BODIES<br>BECOME<br><span class="accent">UNSTOPPABLE</span></h1>
+                <p class="hero-desc">Certified Fitness & Nutrition Coaching. Premium equipment across 3 locations. Real results for real people who refuse to settle.</p>
+                <div class="hero-btns">
+                    <a href="#book" class="btn btn-primary">BOOK FREE TRIAL <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+                    <a href="#training" class="btn btn-outline">VIEW TRAINING PLAN</a>
+                </div>
+            </div>
+            <div class="hero-stats">
+                <div class="hero-stat"><div class="hero-stat-num" data-count="3">0</div><div class="hero-stat-lbl">Locations</div></div>
+                <div class="hero-stat"><div class="hero-stat-num" data-count="109">0</div><div class="hero-stat-lbl">5★ Reviews</div></div>
+                <div class="hero-stat"><div class="hero-stat-num" data-count="3000">0</div><div class="hero-stat-lbl">Community</div></div>
+                <div class="hero-stat"><div class="hero-stat-num" data-count="840">0</div><div class="hero-stat-lbl">IG Posts</div></div>
+            </div>
+        </div>
+    </div>
+    <div class="hero-scroll"><span>Scroll</span><i></i></div>
+</section>
+
+<section class="trust-strip">
+    <div class="container">
+        <div class="trust-grid">
+            <div class="trust-item"><div class="trust-icon">🏋️</div><div class="trust-title">Premium Equipment</div><div class="trust-desc">Branded machines, free weights, cardio zone — 6000+ sqft</div></div>
+            <div class="trust-item"><div class="trust-icon">🎯</div><div class="trust-title">Certified Coaches</div><div class="trust-desc">Certified Nutritionists & Fitness Experts every session</div></div>
+            <div class="trust-item"><div class="trust-icon">🧬</div><div class="trust-title">Custom Plans</div><div class="trust-desc">Indian diet plans, workout schedules, online coaching</div></div>
+            <div class="trust-item"><div class="trust-icon">🔥</div><div class="trust-title">Hardcore Community</div><div class="trust-desc">3000+ members pushing limits every single day</div></div>
+        </div>
+    </div>
+</section>
+
+<section class="sec sec-black" id="about">
+    <div class="container">
+        <div class="about-grid">
+            <div class="about-img-wrap reveal-l"><img src="https://images.unsplash.com/photo-1571902943202-507ec2618e8f?w=800&q=80" alt="Training" class="about-img"><div class="about-badge"><span class="num">4.8</span><span class="txt">Google Rating</span></div></div>
+            <div class="reveal-r">
+                <div class="label">Our Story</div>
+                <h2 class="heading" style="font-size:clamp(2rem,4vw,3rem);margin-bottom:18px;">FIT. FITTER.<br><span>FITTEST.</span></h2>
+                <p class="body-text">Born in Doiwala, Dehradun, Eddy Fitness Club isn't just a gym — it's a movement. Founded by a Certified Nutritionist & Fitness Expert, built on one belief: every ordinary body has the potential to become unstoppable.</p>
+                <p class="about-quote">"Where ordinary bodies become unstoppable"</p>
+                <p class="body-text">From Doiwala to EFC 2.0 (Bhaniawala) and EFC 3.0 (Ranipokhari), we've created hardcore training environments where hygiene, coaching, and community come together.</p>
+                <div class="about-feats">
+                    <div class="about-feat">Aerobics</div><div class="about-feat">CrossFit</div><div class="about-feat">Aquatics</div><div class="about-feat">Cycling</div>
+                    <div class="about-feat">Personal Training</div><div class="about-feat">Indian Diet Plans</div><div class="about-feat">Online Coaching</div><div class="about-feat">Badminton Court</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="sec sec-dark">
+    <div class="container" style="margin-bottom:28px;">
+        <div style="display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:16px;">
+            <div><div class="label">From Our Feed</div><h2 class="heading" style="font-size:clamp(1.6rem,3vw,2.2rem);">@EDDY<span>FITNESSCLUB</span></h2></div>
+            <a href="https://www.instagram.com/eddyfitnessclub/" target="_blank" style="font-family:'Barlow Condensed',sans-serif;font-weight:500;font-size:.75rem;letter-spacing:2px;text-transform:uppercase;color:var(--orange);display:flex;align-items:center;gap:6px;">Follow Us <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+        </div>
+    </div>
+    <div class="gallery-scroll" id="galleryScroll">
+        <div class="gallery-item"><img src="https://images.unsplash.com/photo-1550345332-09e3ac987658?w=600&q=80" alt="Deadlift"></div>
+        <div class="gallery-item"><img src="https://images.unsplash.com/photo-1583454110551-21f2fa2afe61?w=600&q=80" alt="Bench press"></div>
+        <div class="gallery-item"><img src="https://images.unsplash.com/photo-1574680096145-d05b474e2155?w=600&q=80" alt="CrossFit"></div>
+        <div class="gallery-item"><img src="https://images.unsplash.com/photo-1605296867424-35fc25c9212a?w=600&q=80" alt="Weights"></div>
+        <div class="gallery-item"><img src="https://images.unsplash.com/photo-1517836357463-d25dfeac3438?w=600&q=80" alt="Gym floor"></div>
+        <div class="gallery-item"><img src="https://images.unsplash.com/photo-1540497077202-7c8a3999166f?w=600&q=80" alt="Leg press"></div>
+        <div class="gallery-item"><img src="https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?w=600&q=80" alt="Pull-ups"></div>
+        <div class="gallery-item"><img src="https://images.unsplash.com/photo-1533681904393-9ab6ebed745e?w=600&q=80" alt="Group workout"></div>
+    </div>
+</section>
+
+<section class="sec sec-black" id="programs">
+    <div class="container">
+        <div style="text-align:center;margin-bottom:12px;">
+            <div class="label center">Our Programs</div>
+            <h2 class="heading" style="font-size:clamp(2rem,4vw,3rem);margin-bottom:10px;">CHOOSE YOUR <span>BATTLE</span></h2>
+            <p class="body-text" style="max-width:550px;margin:0 auto;">Goal-oriented programs by certified trainers. Pick your path and commit.</p>
+        </div>
+        <div class="programs-tabs" id="progTabs">
+            <div class="p-tab active" onclick="filterProg('all')">All Programs</div>
+            <div class="p-tab" onclick="filterProg('muscle')">Muscle Gain</div>
+            <div class="p-tab" onclick="filterProg('fatloss')">Fat Loss</div>
+            <div class="p-tab" onclick="filterProg('fitness')">General Fitness</div>
+        </div>
+        <div class="programs-grid" id="progGrid">
+            <div class="p-card" data-cat="muscle"><img src="https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?w=600&q=80" alt="Hypertrophy" class="p-card-img"><div class="p-card-body"><div class="p-card-goal">Muscle Gain</div><h3 class="p-card-title">Hypertrophy Elite</h3><p class="p-card-desc">Progressive overload with Indian diet — dal, paneer, eggs, whey. Serious mass building.</p><div class="p-card-meta"><span><strong>12</strong> Weeks</span><span><strong>5x</strong>/Week</span><span><strong>PT</strong> Included</span></div></div></div>
+            <div class="p-card" data-cat="muscle"><img src="https://images.unsplash.com/photo-1526506118085-60ce8714f8c5?w=600&q=80" alt="Strength" class="p-card-img"><div class="p-card-body"><div class="p-card-goal">Muscle Gain</div><h3 class="p-card-title">Strength Foundation</h3><p class="p-card-desc">Compound mastery — squats, deadlifts, bench. Build raw strength with proper form.</p><div class="p-card-meta"><span><strong>8</strong> Weeks</span><span><strong>4x</strong>/Week</span><span><strong>Diet</strong> Plan</span></div></div></div>
+            <div class="p-card" data-cat="fatloss"><img src="https://images.unsplash.com/photo-1518611012118-696072aa579a?w=600&q=80" alt="Shred" class="p-card-img"><div class="p-card-body"><div class="p-card-goal">Fat Loss</div><h3 class="p-card-title">Shred Protocol</h3><p class="p-card-desc">HIIT + CrossFit + Indian calorie-deficit diets. No junk, no maida. Real fat burning.</p><div class="p-card-meta"><span><strong>10</strong> Weeks</span><span><strong>5x</strong>/Week</span><span><strong>Cardio</strong> + Weights</span></div></div></div>
+            <div class="p-card" data-cat="fatloss"><img src="https://images.unsplash.com/photo-1518310383802-640c2de311b2?w=600&q=80" alt="Aerobics" class="p-card-img"><div class="p-card-body"><div class="p-card-goal">Fat Loss</div><h3 class="p-card-title">Aerobics Burn</h3><p class="p-card-desc">High-energy aerobics and cycling. Fun, fast, group-based calorie torching.</p><div class="p-card-meta"><span><strong>6</strong> Weeks</span><span><strong>4x</strong>/Week</span><span><strong>Group</strong> Class</span></div></div></div>
+            <div class="p-card" data-cat="fitness"><img src="https://images.unsplash.com/photo-1599058917765-a780eda07a3e?w=600&q=80" alt="CrossFit" class="p-card-img"><div class="p-card-body"><div class="p-card-goal">General Fitness</div><h3 class="p-card-title">CrossFit Challenge</h3><p class="p-card-desc">Functional fitness — gymnastics, weightlifting, cardio. All-around athletic body.</p><div class="p-card-meta"><span><strong>8</strong> Weeks</span><span><strong>5x</strong>/Week</span><span><strong>All</strong> Levels</span></div></div></div>
+            <div class="p-card" data-cat="fitness"><img src="https://images.unsplash.com/photo-1576678927484-cc907957088c?w=600&q=80" alt="Online" class="p-card-img"><div class="p-card-body"><div class="p-card-goal">General Fitness</div><h3 class="p-card-title">Online Coaching</h3><p class="p-card-desc">Custom workout schedules & Indian diet plans with video calls from anywhere.</p><div class="p-card-meta"><span><strong>Flexible</strong></span><span><strong>Custom</strong> Plan</span><span><strong>Video</strong> Calls</span></div></div></div>
+        </div>
+    </div>
+</section>
+
+<section class="sec sec-dark" id="training">
+    <div class="container">
+        <div style="text-align:center;margin-bottom:12px;">
+            <div class="label center">Weekly Program</div>
+            <h2 class="heading" style="font-size:clamp(2rem,4vw,3rem);margin-bottom:10px;">TRAINING <span>PLAN</span></h2>
+            <p class="body-text" style="max-width:550px;margin:0 auto;">Scientifically designed splits for maximum results. Choose your goal.</p>
+        </div>
+        <div class="plan-tabs">
+            <div class="plan-tab active" onclick="switchPlan('muscle')">Muscle Gain</div>
+            <div class="plan-tab" onclick="switchPlan('fatloss')">Fat Loss</div>
+        </div>
+        <div class="plan-table-wrap" id="plan-muscle">
+            <table class="plan-table">
+                <thead><tr><th>Day</th><th>Muscle</th><th>Exercises</th><th>Sets × Reps</th><th>Rest</th></tr></thead>
+                <tbody>
+                    <tr><td class="day-cell">Monday</td><td><span class="plan-badge chest">CHEST</span></td><td><span class="exercise-name">Flat Bench Press</span><span class="exercise-detail">Barbell, heavy</span><br><span class="exercise-name">Incline Dumbbell Press</span><span class="exercise-detail">30° angle</span><br><span class="exercise-name">Cable Flyes</span><span class="exercise-detail">Squeeze top</span><br><span class="exercise-name">Push-ups</span><span class="exercise-detail">3 sets failure</span></td><td>4×8<br>3×10<br>3×12<br>3×Max</td><td>90s<br>75s<br>60s<br>60s</td></tr>
+                    <tr><td class="day-cell">Tuesday</td><td><span class="plan-badge back">BACK</span></td><td><span class="exercise-name">Deadlift</span><span class="exercise-detail">Conventional</span><br><span class="exercise-name">Pull-ups</span><span class="exercise-detail">Wide grip</span><br><span class="exercise-name">Barbell Row</span><span class="exercise-detail">Pendlay</span><br><span class="exercise-name">Lat Pulldown</span><span class="exercise-detail">Close grip</span></td><td>4×6<br>4×8<br>3×10<br>3×12</td><td>120s<br>90s<br>75s<br>60s</td></tr>
+                    <tr><td class="day-cell">Wednesday</td><td><span class="plan-badge legs">LEGS</span></td><td><span class="exercise-name">Barbell Squat</span><span class="exercise-detail">Below parallel</span><br><span class="exercise-name">Leg Press</span><span class="exercise-detail">Shoulder width</span><br><span class="exercise-name">Romanian Deadlift</span><span class="exercise-detail">Hamstring focus</span><br><span class="exercise-name">Calf Raises</span><span class="exercise-detail">Standing</span></td><td>4×8<br>3×10<br>3×10<br>4×15</td><td>120s<br>90s<br>75s<br>45s</td></tr>
+                    <tr><td class="day-cell">Thursday</td><td><span class="plan-badge shoulder">SHOULDERS</span></td><td><span class="exercise-name">OHP</span><span class="exercise-detail">Barbell</span><br><span class="exercise-name">Lateral Raises</span><span class="exercise-detail">Dumbbell</span><br><span class="exercise-name">Face Pulls</span><span class="exercise-detail">Cable</span><br><span class="exercise-name">Shrugs</span><span class="exercise-detail">Dumbbell</span></td><td>4×8<br>4×12<br>3×15<br>3×12</td><td>90s<br>60s<br>45s<br>60s</td></tr>
+                    <tr><td class="day-cell">Friday</td><td><span class="plan-badge arms">ARMS</span></td><td><span class="exercise-name">Barbell Curl</span><span class="exercise-detail">Standing</span><br><span class="exercise-name">Tricep Dips</span><span class="exercise-detail">Weighted</span><br><span class="exercise-name">Hammer Curls</span><span class="exercise-detail">Dumbbell</span><br><span class="exercise-name">Tricep Pushdown</span><span class="exercise-detail">Cable rope</span></td><td>3×10<br>3×10<br>3×12<br>3×15</td><td>60s<br>75s<br>60s<br>45s</td></tr>
+                    <tr><td class="day-cell">Saturday</td><td><span class="plan-badge core">CORE + CARDIO</span></td><td><span class="exercise-name">Hanging Leg Raises</span><span class="exercise-detail">3×15</span><br><span class="exercise-name">Plank</span><span class="exercise-detail">3×60s</span><br><span class="exercise-name">Russian Twists</span><span class="exercise-detail">3×20</span><br><span class="exercise-name">Treadmill</span><span class="exercise-detail">20 min moderate</span></td><td>3×15<br>3×60s<br>3×20<br>20min</td><td>45s<br>45s<br>45s<br>—</td></tr>
+                    <tr><td class="day-cell">Sunday</td><td><span class="plan-badge rest">REST</span></td><td><span class="exercise-name">Complete rest</span><span class="exercise-detail">Sleep 7-8 hours</span><br><span class="exercise-name">Light stretching</span><span class="exercise-detail">15 min mobility</span><br><span class="exercise-name">Foam rolling</span><span class="exercise-detail">Full body</span></td><td>—<br>—<br>—</td><td>—</td></tr>
+                </tbody>
+            </table>
+            <p class="plan-note">🏋️ Progressive Overload: Add 2.5-5kg every week on compounds. Track lifts. 1-1.5 hours per session.</p>
+        </div>
+        <div class="plan-table-wrap" id="plan-fatloss" style="display:none;">
+            <table class="plan-table">
+                <thead><tr><th>Day</th><th>Focus</th><th>Exercises</th><th>Sets/Time</th><th>Rest</th></tr></thead>
+                <tbody>
+                    <tr><td class="day-cell">Monday</td><td><span class="plan-badge cardio">HIIT + UPPER</span></td><td><span class="exercise-name">Treadmill Sprints</span><span class="exercise-detail">30s on/30s off ×10</span><br><span class="exercise-name">Push-ups</span><span class="exercise-detail">3×20</span><br><span class="exercise-name">DB Row</span><span class="exercise-detail">3×15</span><br><span class="exercise-name">Shoulder Press</span><span class="exercise-detail">3×15</span></td><td>10 rounds<br>3×20<br>3×15<br>3×15</td><td>30s each</td></tr>
+                    <tr><td class="day-cell">Tuesday</td><td><span class="plan-badge legs">LOWER BODY</span></td><td><span class="exercise-name">Bodyweight Squats</span><span class="exercise-detail">4×25</span><br><span class="exercise-name">Walking Lunges</span><span class="exercise-detail">3×20 each</span><br><span class="exercise-name">Jump Squats</span><span class="exercise-detail">3×15</span><br><span class="exercise-name">Cycling</span><span class="exercise-detail">15 min</span></td><td>4×25<br>3×20<br>3×15<br>15min</td><td>30-45s</td></tr>
+                    <tr><td class="day-cell">Wednesday</td><td><span class="plan-badge cardio">CROSSFIT WOD</span></td><td><span class="exercise-name">Burpees</span><span class="exercise-detail">15 reps</span><br><span class="exercise-name">KB Swings</span><span class="exercise-detail">20 reps</span><br><span class="exercise-name">Box Jumps</span><span class="exercise-detail">15 reps</span><br><span class="exercise-name">Mountain Climbers</span><span class="exercise-detail">30 reps</span><br><span class="exercise-detail">4 rounds, no rest between exercises</span></td><td>4 rounds</td><td>2min between rounds</td></tr>
+                    <tr><td class="day-cell">Thursday</td><td><span class="plan-badge core">CORE + CARDIO</span></td><td><span class="exercise-name">Plank</span><span class="exercise-detail">3×60s</span><br><span class="exercise-name">Bicycle Crunches</span><span class="exercise-detail">3×25 each</span><br><span class="exercise-name">Jump Rope</span><span class="exercise-detail">5×2min</span><br><span class="exercise-name">Leg Raises</span><span class="exercise-detail">3×20</span></td><td>3×60s<br>3×25<br>5×2min<br>3×20</td><td>30s each</td></tr>
+                    <tr><td class="day-cell">Friday</td><td><span class="plan-badge chest">FULL BODY CIRCUIT</span></td><td><span class="exercise-name">Squat to Press</span><span class="exercise-detail">15 reps</span><br><span class="exercise-name">Renegade Rows</span><span class="exercise-detail">12 each</span><br><span class="exercise-name">Step-ups</span><span class="exercise-detail">15 each</span><br><span class="exercise-name">Push-ups</span><span class="exercise-detail">15 reps</span><br><span class="exercise-detail">5 rounds, 45s rest</span></td><td>5 rounds</td><td>45s between rounds</td></tr>
+                    <tr><td class="day-cell">Saturday</td><td><span class="plan-badge cardio">STEADY CARDIO</span></td><td><span class="exercise-name">Treadmill Jog</span><span class="exercise-detail">30 min at 6-7 km/h</span><br><span class="exercise-name">Cycling</span><span class="exercise-detail">20 min</span><br><span class="exercise-name">Stretching</span><span class="exercise-detail">15 min full body</span></td><td>30min<br>20min<br>15min</td><td>—</td></tr>
+                    <tr><td class="day-cell">Sunday</td><td><span class="plan-badge rest">REST</span></td><td><span class="exercise-name">Complete rest</span><span class="exercise-detail">Recovery is key</span><br><span class="exercise-name">Yoga/Stretching</span><span class="exercise-detail">20 min optional</span></td><td>—<br>—</td><td>—</td></tr>
+                </tbody>
+            </table>
+            <p class="plan-note">🔥 Keep rest SHORT. Heart rate stays elevated. Combine with Indian diet plan below. 45-60 min per session.</p>
+        </div>
+    </div>
+</section>
+
+<section class="sec sec-black" id="diet">
+    <div class="container">
+        <div style="text-align:center;margin-bottom:12px;">
+            <div class="label center">Nutrition</div>
+            <h2 class="heading" style="font-size:clamp(2rem,4vw,3rem);margin-bottom:10px;">INDIAN <span>DIET PLAN</span></h2>
+            <p class="body-text" style="max-width:580px;margin:0 auto;">Designed for Indian bodies with local, affordable ingredients. No expensive supplements — just real food from your kitchen.</p>
+        </div>
+        <div class="plan-tabs" style="margin-bottom:28px;">
+            <div class="plan-tab active" onclick="switchDiet('gain')">Muscle Gain Diet</div>
+            <div class="plan-tab" onclick="switchDiet('loss')">Fat Loss Diet</div>
+        </div>
+        <div id="diet-gain">
+            <div class="diet-grid">
+                <div class="diet-card"><div class="diet-card-header"><div class="diet-card-time">☀️ Pre-Workout</div><div class="diet-card-clock">6:00 AM</div></div><div class="diet-card-body"><div class="diet-item"><span class="diet-item-name">Paneer Bhurji</span><span class="diet-item-qty">150g</span><span class="diet-item-protein">27g P</span></div><div class="diet-item"><span class="diet-item-name">Whole Wheat Roti</span><span class="diet-item-qty">3 rotis</span><span class="diet-item-protein">9g P</span></div><div class="diet-item"><span class="diet-item-name">Banana Shake</span><span class="diet-item-qty">2 banana + 500ml milk</span><span class="diet-item-protein">18g P</span></div></div><div class="diet-total"><div class="diet-total-item"><strong>54g</strong> Protein</div><div class="diet-total-item"><strong>85g</strong> Carbs</div><div class="diet-total-item"><strong>35g</strong> Fats</div><div class="diet-total-item"><strong>870</strong> Kcal</div></div></div>
+                <div class="diet-card"><div class="diet-card-header"><div class="diet-card-time">💪 Post-Workout</div><div class="diet-card-clock">8:30 AM</div></div><div class="diet-card-body"><div class="diet-item"><span class="diet-item-name">Whey Protein</span><span class="diet-item-qty">1 scoop + water</span><span class="diet-item-protein">24g P</span></div><div class="diet-item"><span class="diet-item-name">Egg Whites</span><span class="diet-item-qty">4 boiled</span><span class="diet-item-protein">14g P</span></div><div class="diet-item"><span class="diet-item-name">Peanut Butter Toast</span><span class="diet-item-qty">2 slices + 2 tbsp</span><span class="diet-item-protein">8g P</span></div></div><div class="diet-total"><div class="diet-total-item"><strong>46g</strong> Protein</div><div class="diet-total-item"><strong>40g</strong> Carbs</div><div class="diet-total-item"><strong>18g</strong> Fats</div><div class="diet-total-item"><strong>510</strong> Kcal</div></div></div>
+                <div class="diet-card"><div class="diet-card-header"><div class="diet-card-time">🍛 Mid-Day</div><div class="diet-card-clock">11:30 AM</div></div><div class="diet-card-body"><div class="diet-item"><span class="diet-item-name">Chana (Black Chickpeas)</span><span class="diet-item-qty">1 bowl boiled</span><span class="diet-item-protein">15g P</span></div><div class="diet-item"><span class="diet-item-name">Sprouts Salad</span><span class="diet-item-qty">1 cup moong + kala chana</span><span class="diet-item-protein">10g P</span></div><div class="diet-item"><span class="diet-item-name">Green Tea</span><span class="diet-item-qty">1 cup</span><span class="diet-item-protein">0g P</span></div></div><div class="diet-total"><div class="diet-total-item"><strong>25g</strong> Protein</div><div class="diet-total-item"><strong>45g</strong> Carbs</div><div class="diet-total-item"><strong>5g</strong> Fats</div><div class="diet-total-item"><strong>330</strong> Kcal</div></div></div>
+                <div class="diet-card"><div class="diet-card-header"><div class="diet-card-time">🍚 Lunch</div><div class="diet-card-clock">1:30 PM</div></div><div class="diet-card-body"><div class="diet-item"><span class="diet-item-name">Rajma Curry</span><span class="diet-item-qty">1 big bowl</span><span class="diet-item-protein">15g P</span></div><div class="diet-item"><span class="diet-item-name">Brown Rice</span><span class="diet-item-qty">1.5 cups</span><span class="diet-item-protein">6g P</span></div><div class="diet-item"><span class="diet-item-name">Curd (Dahi)</span><span class="diet-item-qty">1 bowl</span><span class="diet-item-protein">8g P</span></div><div class="diet-item"><span class="diet-item-name">Salad</span><span class="diet-item-qty">cucumber, onion, tomato</span><span class="diet-item-protein">2g P</span></div></div><div class="diet-total"><div class="diet-total-item"><strong>31g</strong> Protein</div><div class="diet-total-item"><strong>80g</strong> Carbs</div><div class="diet-total-item"><strong>12g</strong> Fats</div><div class="diet-total-item"><strong>560</strong> Kcal</div></div></div>
+                <div class="diet-card"><div class="diet-card-header"><div class="diet-card-time">🥤 Evening</div><div class="diet-card-clock">5:00 PM</div></div><div class="diet-card-body"><div class="diet-item"><span class="diet-item-name">Soya Chunks</span><span class="diet-item-qty">50g dry (boiled)</span><span class="diet-item-protein">26g P</span></div><div class="diet-item"><span class="diet-item-name">Almonds</span><span class="diet-item-qty">15 pieces</span><span class="diet-item-protein">6g P</span></div><div class="diet-item"><span class="diet-item-name">Makhana</span><span class="diet-item-qty">1 handful roasted</span><span class="diet-item-protein">3g P</span></div></div><div class="diet-total"><div class="diet-total-item"><strong>35g</strong> Protein</div><div class="diet-total-item"><strong>20g</strong> Carbs</div><div class="diet-total-item"><strong>15g</strong> Fats</div><div class="diet-total-item"><strong>355</strong> Kcal</div></div></div>
+                <div class="diet-card"><div class="diet-card-header"><div class="diet-card-time">🌙 Dinner</div><div class="diet-card-clock">8:30 PM</div></div><div class="diet-card-body"><div class="diet-item"><span class="diet-item-name">Chicken/Fish</span><span class="diet-item-qty">200g cooked</span><span class="diet-item-protein">42g P</span></div><div class="diet-item"><span class="diet-item-name">Roti</span><span class="diet-item-qty">2 whole wheat</span><span class="diet-item-protein">6g P</span></div><div class="diet-item"><span class="diet-item-name">Dal</span><span class="diet-item-qty">1 bowl</span><span class="diet-item-protein">9g P</span></div><div class="diet-item"><span class="diet-item-name">Sabzi</span><span class="diet-item-qty">1 bowl</span><span class="diet-item-protein">3g P</span></div></div><div class="diet-total"><div class="diet-total-item"><strong>60g</strong> Protein</div><div class="diet-total-item"><strong>55g</strong> Carbs</div><div class="diet-total-item"><strong>14g</strong> Fats</div><div class="diet-total-item"><strong>600</strong> Kcal</div></div></div>
+            </div>
+            <div class="diet-legend">
+                <div class="diet-legend-item"><div class="diet-legend-dot" style="background:var(--orange);"></div>Total: ~251g Protein</div>
+                <div class="diet-legend-item"><div class="diet-legend-dot" style="background:var(--silver);"></div>Total: ~325g Carbs</div>
+                <div class="diet-legend-item"><div class="diet-legend-dot" style="background:var(--green);"></div>Total: ~99g Fats</div>
+                <div class="diet-legend-item"><div class="diet-legend-dot" style="background:var(--yellow);"></div>Total: ~3225 Kcal/day</div>
+            </div>
+            <p class="plan-note" style="margin-top:16px;">💡 Vegetarian? Swap chicken with 200g soya chunks + 1 cup paneer. Drink 3-4L water daily. Avoid: samosa, pakode, namkeen, sugary drinks, maida.</p>
+        </div>
+        <div id="diet-loss" style="display:none;">
+            <div class="diet-grid">
+                <div class="diet-card"><div class="diet-card-header"><div class="diet-card-time">☀️ Morning</div><div class="diet-card-clock">6:30 AM</div></div><div class="diet-card-body"><div class="diet-item"><span class="diet-item-name">Warm Water + Lemon</span><span class="diet-item-qty">1 glass</span><span class="diet-item-protein">0g P</span></div><div class="diet-item"><span class="diet-item-name">Egg Whites</span><span class="diet-item-qty">6 boiled</span><span class="diet-item-protein">21g P</span></div><div class="diet-item"><span class="diet-item-name">Brown Bread Toast</span><span class="diet-item-qty">1 slice dry</span><span class="diet-item-protein">3g P</span></div><div class="diet-item"><span class="diet-item-name">Green Tea</span><span class="diet-item-qty">1 cup (no sugar)</span><span class="diet-item-protein">0g P</span></div></div><div class="diet-total"><div class="diet-total-item"><strong>24g</strong> Protein</div><div class="diet-total-item"><strong>20g</strong> Carbs</div><div class="diet-total-item"><strong>2g</strong> Fats</div><div class="diet-total-item"><strong>200</strong> Kcal</div></div></div>
+                <div class="diet-card"><div class="diet-card-header"><div class="diet-card-time">💪 Post-Workout</div><div class="diet-card-clock">9:00 AM</div></div><div class="diet-card-body"><div class="diet-item"><span class="diet-item-name">Whey Protein</span><span class="diet-item-qty">1 scoop</span><span class="diet-item-protein">24g P</span></div><div class="diet-item"><span class="diet-item-name">Apple</span><span class="diet-item-qty">1 medium</span><span class="diet-item-protein">0g P</span></div><div class="diet-item"><span class="diet-item-name">Almonds</span><span class="diet-item-qty">8 soaked</span><span class="diet-item-protein">3g P</span></div></div><div class="diet-total"><div class="diet-total-item"><strong>27g</strong> Protein</div><div class="diet-total-item"><strong>25g</strong> Carbs</div><div class="diet-total-item"><strong>5g</strong> Fats</div><div class="diet-total-item"><strong>255</strong> Kcal</div></div></div>
+                <div class="diet-card"><div class="diet-card-header"><div class="diet-card-time">🍚 Lunch</div><div class="diet-card-clock">1:00 PM</div></div><div class="diet-card-body"><div class="diet-item"><span class="diet-item-name">Brown Rice</span><span class="diet-item-qty">½ cup cooked</span><span class="diet-item-protein">3g P</span></div><div class="diet-item"><span class="diet-item-name">Moong Dal</span><span class="diet-item-qty">1 small bowl</span><span class="diet-item-protein">7g P</span></div><div class="diet-item"><span class="diet-item-name">Chicken Curry (lean)</span><span class="diet-item-qty">100g no oil</span><span class="diet-item-protein">22g P</span></div><div class="diet-item"><span class="diet-item-name">Salad</span><span class="diet-item-qty">big bowl</span><span class="diet-item-protein">2g P</span></div></div><div class="diet-total"><div class="diet-total-item"><strong>34g</strong> Protein</div><div class="diet-total-item"><strong>40g</strong> Carbs</div><div class="diet-total-item"><strong>5g</strong> Fats</div><div class="diet-total-item"><strong>345</strong> Kcal</div></div></div>
+                <div class="diet-card"><div class="diet-card-header"><div class="diet-card-time">🥤 Evening</div><div class="diet-card-clock">5:00 PM</div></div><div class="diet-card-body"><div class="diet-item"><span class="diet-item-name">Soya Chunks</span><span class="diet-item-qty">30g dry boiled</span><span class="diet-item-protein">15g P</span></div><div class="diet-item"><span class="diet-item-name">Green Tea</span><span class="diet-item-qty">1 cup</span><span class="diet-item-protein">0g P</span></div><div class="diet-item"><span class="diet-item-name">Cucumber</span><span class="diet-item-qty">1 whole</span><span class="diet-item-protein">1g P</span></div></div><div class="diet-total"><div class="diet-total-item"><strong>16g</strong> Protein</div><div class="diet-total-item"><strong>12g</strong> Carbs</div><div class="diet-total-item"><strong>3g</strong> Fats</div><div class="diet-total-item"><strong>145</strong> Kcal</div></div></div>
+                <div class="diet-card"><div class="diet-card-header"><div class="diet-card-time">🌙 Dinner</div><div class="diet-card-clock">8:00 PM</div></div><div class="diet-card-body"><div class="diet-item"><span class="diet-item-name">Fish/Paneer Tikka</span><span class="diet-item-qty">150g grilled</span><span class="diet-item-protein">33g P</span></div><div class="diet-item"><span class="diet-item-name">Multigrain Roti</span><span class="diet-item-qty">1 only</span><span class="diet-item-protein">3g P</span></div><div class="diet-item"><span class="diet-item-name">Palak/Methi Sabzi</span><span class="diet-item-qty">1 bowl less oil</span><span class="diet-item-protein">4g P</span></div><div class="diet-item"><span class="diet-item-name">Low Fat Curd</span><span class="diet-item-qty">½ bowl</span><span class="diet-item-protein">4g P</span></div></div><div class="diet-total"><div class="diet-total-item"><strong>44g</strong> Protein</div><div class="diet-total-item"><strong>25g</strong> Carbs</div><div class="diet-total-item"><strong>8g</strong> Fats</div><div class="diet-total-item"><strong>350</strong> Kcal</div></div></div>
+                <div class="diet-card"><div class="diet-card-header"><div class="diet-card-time">🚫 Before Bed</div><div class="diet-card-clock">10:00 PM</div></div><div class="diet-card-body"><div class="diet-item"><span class="diet-item-name">Warm Water + Jeera</span><span class="diet-item-qty">1 glass</span><span class="diet-item-protein">0g P</span></div><div class="diet-item"><span class="diet-item-name">Skimmed Milk</span><span class="diet-item-qty">200ml optional</span><span class="diet-item-protein">7g P</span></div></div><div class="diet-total"><div class="diet-total-item"><strong>7g</strong> Protein</div><div class="diet-total-item"><strong>9g</strong> Carbs</div><div class="diet-total-item"><strong>1g</strong> Fats</div><div class="diet-total-item"><strong>75</strong> Kcal</div></div></div>
+            </div>
+            <div class="diet-legend">
+                <div class="diet-legend-item"><div class="diet-legend-dot" style="background:var(--orange);"></div>Total: ~152g Protein</div>
+                <div class="diet-legend-item"><div class="diet-legend-dot" style="background:var(--silver);"></div>Total: ~131g Carbs</div>
+                <div class="diet-legend-item"><div class="diet-legend-dot" style="background:var(--green);"></div>Total: ~24g Fats</div>
+                <div class="diet-legend-item"><div class="diet-legend-dot" style="background:var(--yellow);"></div>Total: ~1370 Kcal/day</div>
+            </div>
+            <p class="plan-note" style="margin-top:16px;">⚠️ STRICT: No sugar, no maida, no deep fried, no rice at night, no junk, no cold drinks. Cook in 1 tsp ghee/oil max per meal. 4L water. Sleep by 10:30 PM.</p>
+        </div>
+    </div>
+</section>
+
+<section class="sec sec-dark" id="coaches">
+    <div class="container">
+        <div style="display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:40px;flex-wrap:wrap;gap:16px;">
+            <div><div class="label">The Team</div><h2 class="heading" style="font-size:clamp(1.8rem,3.5vw,2.8rem);">YOUR <span>COACHES</span></h2></div>
+            <a href="https://www.instagram.com/eddyfitnessclub/" target="_blank" class="btn btn-outline btn-sm">SEE ON INSTAGRAM</a>
+        </div>
+        <div class="coaches-grid">
+            <div class="coach-card reveal"><div class="coach-img-wrap"><img src="https://images.unsplash.com/photo-1567013127542-490d757e51fc?w=600&q=80" alt="Founder"><div class="coach-num">01</div></div><div class="coach-info"><h3 class="coach-name">Founder & Head Coach</h3><div class="coach-role">Certified Nutritionist & Fitness Expert</div><div class="coach-certs"><span class="coach-cert">Certified Nutritionist</span><span class="coach-cert">Fitness Expert</span><span class="coach-cert">Diet Specialist</span></div><p class="coach-bio">Founder of EFC. @fitpahaditraveller. Offering paid diet plans, workout schedules, and online training.</p></div></div>
+            <div class="coach-card reveal" style="transition-delay:.1s"><div class="coach-img-wrap"><img src="https://images.unsplash.com/photo-1583454110551-21f2fa2afe61?w=600&q=80" alt="Strength"><div class="coach-num">02</div></div><div class="coach-info"><h3 class="coach-name">Senior Strength Coach</h3><div class="coach-role">Powerlifting & Hypertrophy Specialist</div><div class="coach-certs"><span class="coach-cert">Strength Training</span><span class="coach-cert">Personal Trainer</span></div><p class="coach-bio">Progressive overload and form correction specialist. Building raw strength safely.</p></div></div>
+            <div class="coach-card reveal" style="transition-delay:.2s"><div class="coach-img-wrap"><img src="https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?w=600&q=80" alt="CrossFit"><div class="coach-num">03</div></div><div class="coach-info"><h3 class="coach-name">CrossFit & Cardio Coach</h3><div class="coach-role">Functional Fitness & Aerobics</div><div class="coach-certs"><span class="coach-cert">CrossFit L1</span><span class="coach-cert">Aerobics Instructor</span></div><p class="coach-bio">High-energy CrossFit and aerobics sessions. Building athletic, functional bodies.</p></div></div>
+        </div>
+    </div>
+</section>
+
+<section class="sec sec-black">
+    <div class="container">
+        <div class="test-header">
+            <div><div class="label">What Members Say</div><h2 class="heading" style="font-size:clamp(1.5rem,3vw,2rem);">GOOGLE <span>REVIEWS</span></h2></div>
+            <div class="test-rating"><div class="test-rating-num">4.8</div><div><div class="test-stars"><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></div><span class="test-count">109 Reviews on Google</span></div></div>
+        </div>
+        <div class="test-grid">
+            <div class="test-card reveal"><div class="test-card-stars"><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></div><p class="test-card-quote">"The soothing environment with the best equipment and supportive trainers. Everything you need to push your limits."</p><div class="test-card-author"><div class="test-card-avatar">R</div><div><div class="test-card-name">Verified Member</div><div class="test-card-label">Google Review</div></div></div></div>
+            <div class="test-card reveal" style="transition-delay:.1s"><div class="test-card-stars"><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></div><p class="test-card-quote">"An amazing and excellent place for workout. Healthy and friendly environment. The staff truly cares about your progress."</p><div class="test-card-author"><div class="test-card-avatar">A</div><div><div class="test-card-name">Verified Member</div><div class="test-card-label">Google Review</div></div></div></div>
+            <div class="test-card reveal" style="transition-delay:.2s"><div class="test-card-stars"><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></div><p class="test-card-quote">"Lovely place to work out! Great deals and personal assistance with professional certification. Top-notch machines."</p><div class="test-card-author"><div class="test-card-avatar">S</div><div><div class="test-card-name">Verified Member</div><div class="test-card-label">Google Review</div></div></div></div>
+        </div>
+    </div>
+</section>
+
+<section class="sec sec-dark" id="pricing">
+    <div class="container">
+        <div style="text-align:center;margin-bottom:12px;">
+            <div class="label center">Investment</div>
+            <h2 class="heading" style="font-size:clamp(2rem,4vw,3rem);margin-bottom:10px;">MEMBERSHIP <span>PLANS</span></h2>
+            <p class="body-text" style="max-width:500px;margin:0 auto;">Transparent pricing. No hidden charges.</p>
+        </div>
+        <div class="pricing-grid">
+            <div class="price-card reveal"><div class="price-name">Basic</div><div class="price-desc">For self-driven beginners</div><div class="price-amount">₹1,500<span>/month</span></div><div class="price-period">or ₹15,000/year (save ₹3,000)</div><ul class="price-features"><li>Full Gym Access (Any Shift)</li><li>All Cardio & Weight Machines</li><li>Locker & Changing Room</li><li>Basic Workout Chart</li><li class="disabled">Personal Trainer</li><li class="disabled">Custom Diet Plan</li><li class="disabled">Online Coaching</li></ul><a href="#book" class="btn btn-outline btn-sm" style="width:100%;justify-content:center;">GET STARTED</a></div>
+            <div class="price-card featured reveal" style="transition-delay:.1s"><div class="price-name">Pro</div><div class="price-desc">For serious lifters</div><div class="price-amount">₹2,500<span>/month</span></div><div class="price-period">or ₹25,000/year (save ₹5,000)</div><ul class="price-features"><li>Full Gym Access (Any Shift)</li><li>All Equipment + CrossFit Zone</li><li>Personal Trainer (3x/week)</li><li>Custom Indian Diet Plan</li><li>Monthly Body Assessment</li><li>Group Classes</li><li class="disabled">Online Coaching</li></ul><a href="#book" class="btn btn-primary btn-sm" style="width:100%;justify-content:center;">GET STARTED</a></div>
+            <div class="price-card reveal" style="transition-delay:.2s"><div class="price-name">Elite</div><div class="price-desc">For transformation seekers</div><div class="price-amount">₹4,000<span>/month</span></div><div class="price-period">or ₹40,000/year (save ₹8,000)</div><ul class="price-features"><li>Everything in Pro Plan</li><li>Daily Personal Training</li><li>Complete Diet + Supplement Plan</li><li>Bi-weekly Body Assessment</li><li>Online Coaching (Video Calls)</li><li>Priority Slot Booking</li><li>Badminton Court Access</li></ul><a href="#book" class="btn btn-outline btn-sm" style="width:100%;justify-content:center;">GET STARTED</a></div>
+        </div>
+    </div>
+</section>
+
+<section class="cta-sec" id="book">
+    <div class="container">
+        <div class="cta-box">
+            <div>
+                <div class="label">Start Today</div>
+                <h2 class="heading" style="font-size:clamp(1.8rem,3.5vw,2.8rem);margin-bottom:14px;">BOOK YOUR<br><span>FREE TRIAL</span> CLASS</h2>
+                <p class="body-text" style="margin-bottom:28px;">Experience the EFC difference. One session is all it takes. No commitment, no pressure.</p>
+                <div style="display:flex;gap:28px;flex-wrap:wrap;margin-bottom:28px;">
+                    <div style="display:flex;flex-direction:column;"><span style="font-size:1.3rem;">💪</span><span style="font-family:'Barlow Condensed',sans-serif;font-weight:500;font-size:.7rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--silver);">Free Assessment</span></div>
+                    <div style="display:flex;flex-direction:column;"><span style="font-size:1.3rem;">📋</span><span style="font-family:'Barlow Condensed',sans-serif;font-weight:500;font-size:.7rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--silver);">Custom Plan</span></div>
+                    <div style="display:flex;flex-direction:column;"><span style="font-size:1.3rem;">🎯</span><span style="font-family:'Barlow Condensed',sans-serif;font-weight:500;font-size:.7rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--silver);">Goal Setting</span></div>
+                    <div style="display:flex;flex-direction:column;"><span style="font-size:1.3rem;">⚡</span><span style="font-family:'Barlow Condensed',sans-serif;font-weight:500;font-size:.7rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--silver);">No Commitment</span></div>
+                </div>
+                <p style="font-size:.78rem;color:var(--text-muted);">Starting at ₹1,500/month · Call: <a href="tel:8410411868" style="color:var(--orange);">8410411868</a></p>
+            </div>
+            <form class="cta-form" id="trialForm" onsubmit="submitForm(event)">
+                <div class="cta-form-title">Reserve Your Spot</div>
+                <div class="form-group"><label>Full Name</label><input type="text" placeholder="Enter your name" required></div>
+                <div class="form-row"><div class="form-group"><label>Phone</label><input type="tel" placeholder="+91" required></div><div class="form-group"><label>Age</label><input type="number" placeholder="25" min="14" max="80"></div></div>
+                <div class="form-group"><label>Fitness Goal</label><select required><option value="" disabled selected>Select goal</option><option value="muscle">Muscle Gain</option><option value="fatloss">Fat Loss</option><option value="fitness">General Fitness</option><option value="crossfit">CrossFit</option><option value="online">Online Coaching</option></select></div>
+                <div class="form-group"><label>Branch</label><select required><option value="" disabled selected>Select branch</option><option>Doiwala (Main)</option><option>Bhaniawala (EFC 2.0)</option><option>Ranipokhari (EFC 3.0)</option></select></div>
+                <div class="form-row"><div class="form-group"><label>Date</label><input type="date" id="dateInput" required></div><div class="form-group"><label>Time</label><select required><option value="" disabled selected>Select</option><option>Morning (5-10 AM)</option><option>Evening (4:30-10 PM)</option></select></div></div>
+                <button type="submit" class="btn btn-primary">BOOK FREE TRIAL NOW <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button>
+            </form>
+        </div>
+    </div>
+</section>
+
+<section class="sec sec-black" id="contact">
+    <div class="container">
+        <div class="label">Find Us</div>
+        <h2 class="heading" style="font-size:clamp(1.6rem,3vw,2.2rem);margin-bottom:32px;">OUR <span>LOCATIONS</span></h2>
+        <div class="loc-grid">
+            <div class="loc-map"><iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3447.5!2d78.1!3d30.2!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMzDCsDEyJzAwLjAiTiA3OMKwMDYnMDAuMCJF!5e0!3m2!1sen!2sin!4v1" loading="lazy" title="Location"></iframe></div>
+            <div>
+                <h3 style="font-family:'Oswald',sans-serif;font-weight:700;font-size:1.3rem;text-transform:uppercase;margin-bottom:18px;">EDDY FITNESS CLUB — <span style="color:var(--orange);">MAIN</span></h3>
+                <div class="loc-detail"><div class="loc-icon">📍</div><div><div class="loc-label">Address</div><div class="loc-value">Ward No. 18, Kalpatru Art Street, Dudhli Rd, Near HP Petrol Pump, Doiwala, UK 248140</div></div></div>
+                <div class="loc-detail"><div class="loc-icon">🕐</div><div><div class="loc-label">Hours</div><div class="loc-value">Morning: 5:00 AM – 10:00 AM<br>Evening: 4:00 PM – 10:00 PM</div></div></div>
+                <div class="loc-detail"><div class="loc-icon">📞</div><div><div class="loc-label">Phone / WhatsApp</div><div class="loc-value"><a href="tel:8410411868">8410411868</a></div></div></div>
+                <div class="loc-detail"><div class="loc-icon">📸</div><div><div class="loc-label">Instagram</div><div class="loc-value"><a href="https://www.instagram.com/eddyfitnessclub/" target="_blank">@eddyfitnessclub</a></div></div></div>
+                <div class="branches"><h4>All Branches</h4><div class="branch-item">EFC Main — Doiwala (4.8★ · 109 reviews)</div><div class="branch-item">EFC 2.0 — Bhaniawala (4.8★ · 97 reviews)</div><div class="branch-item">EFC 3.0 — Ranipokhari (4.8★ · 42 reviews)</div><div class="branch-item">EFC Sports — Badminton Court (4.8★ · 14 reviews)</div></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<footer class="footer">
+    <div class="container">
+        <div class="footer-grid">
+            <div><div class="footer-name">EDDY <span>FITNESS</span> CLUB</div><p class="footer-desc">Where Ordinary Bodies Become Unstoppable. Certified Fitness & Nutrition Coaching across 3 locations in Dehradun.</p><div class="footer-social"><a href="https://www.instagram.com/eddyfitnessclub/" target="_blank">IG</a><a href="https://www.instagram.com/fitpahaditraveller/" target="_blank">FP</a><a href="tel:8410411868">📞</a><a href="https://wa.me/918410411868" target="_blank">WA</a></div></div>
+            <div><div class="footer-col-title">Quick Links</div><ul class="footer-links"><li><a href="#about">About EFC</a></li><li><a href="#programs">Programs</a></li><li><a href="#training">Training Plan</a></li><li><a href="#diet">Diet Plan</a></li><li><a href="#coaches">Coaches</a></li></ul></div>
+            <div><div class="footer-col-title">Programs</div><ul class="footer-links"><li><a href="#programs">Hypertrophy Elite</a></li><li><a href="#programs">Shred Protocol</a></li><li><a href="#programs">CrossFit Challenge</a></li><li><a href="#programs">Aerobics Burn</a></li><li><a href="#programs">Online Coaching</a></li></ul></div>
+            <div><div class="footer-col-title">Services</div><ul class="footer-links"><li><a href="#book">Personal Training</a></li><li><a href="#diet">Indian Diet Plans</a></li><li><a href="#training">Workout Schedules</a></li><li><a href="#pricing">Membership Plans</a></li><li><a href="#contact">Badminton Court</a></li></ul></div>
+        </div>
+        <div class="footer-bottom"><div class="footer-bottom-text">© 2025 <span>EDDY FITNESS CLUB</span> — Doiwala, Dehradun</div><div class="footer-bottom-text">FIT. FITTER. <span>FITTEST.</span></div></div>
+    </div>
+</footer>
+
+<a href="https://wa.me/918410411868?text=Hi!%20I'd%20like%20to%20book%20a%20trial%20class%20at%20Eddy%20Fitness%20Club" target="_blank" class="float-wa" aria-label="WhatsApp"><svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg></a>
+<div class="float-top" id="floatTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</div>
+
+<script>
+// BULLETPROOF PRELOADER - uses setTimeout as failsafe
+setTimeout(function(){
+    document.getElementById('preloader').classList.add('done');
+}, 2200);
+
+// Also try on load
+window.addEventListener('load', function(){
+    setTimeout(function(){
+        document.getElementById('preloader').classList.add('done');
+    }, 200);
+});
+
+// Nav scroll
+var nav = document.getElementById('nav');
+window.addEventListener('scroll', function(){
+    if(window.scrollY > 60){ nav.classList.add('sticky'); }
+    else { nav.classList.remove('sticky'); }
+    var btt = document.getElementById('floatTop');
+    if(window.scrollY > 600){ btt.classList.add('show'); }
+    else { btt.classList.remove('show'); }
+});
+
+// Mobile nav
+function toggleNav(){
+    document.getElementById('hamburger').classList.toggle('open');
+    document.getElementById('navLinks').classList.toggle('open');
+}
+document.querySelectorAll('.nav-links a').forEach(function(a){
+    a.addEventListener('click', function(){
+        document.getElementById('hamburger').classList.remove('open');
+        document.getElementById('navLinks').classList.remove('open');
+    });
+});
+
+// Program filter
+function filterProg(cat){
+    document.querySelectorAll('.p-tab').forEach(function(t){ t.classList.remove('active'); });
+    event.target.classList.add('active');
+    document.querySelectorAll('.p-card').forEach(function(c){
+        if(cat === 'all' || c.dataset.cat === cat){ c.style.display = 'block'; }
+        else { c.style.display = 'none'; }
+    });
+}
+
+// Training plan switch
+function switchPlan(type){
+    document.querySelectorAll('#training .plan-tab').forEach(function(t){ t.classList.remove('active'); });
+    event.target.classList.add('active');
+    document.getElementById('plan-muscle').style.display = type === 'muscle' ? 'block' : 'none';
+    document.getElementById('plan-fatloss').style.display = type === 'fatloss' ? 'block' : 'none';
+}
+
+// Diet plan switch
+function switchDiet(type){
+    document.querySelectorAll('#diet .plan-tab').forEach(function(t){ t.classList.remove('active'); });
+    event.target.classList.add('active');
+    document.getElementById('diet-gain').style.display = type === 'gain' ? 'block' : 'none';
+    document.getElementById('diet-loss').style.display = type === 'loss' ? 'block' : 'none';
+}
+
+// Form submit
+function submitForm(e){
+    e.preventDefault();
+    var form = e.target;
+    var inputs = form.querySelectorAll('input, select');
+    var msg = 'Hi! I want to book a free trial at Eddy Fitness Club.\n\n';
+    inputs.forEach(function(inp){
+        if(inp.type === 'date' || inp.type === 'number' || inp.type === 'tel' || inp.type === 'text'){
+            var label = inp.previousElementSibling ? inp.previousElementSibling.textContent : '';
+            msg += label + ': ' + inp.value + '\n';
+        }
+        if(inp.tagName === 'SELECT'){
+            var label = inp.previousElementSibling ? inp.previousElementSibling.textContent : '';
+            msg += label + ': ' + inp.value + '\n';
+        }
+    });
+    window.open('https://wa.me/918410411868?text=' + encodeURIComponent(msg), '_blank');
+}
+
+// Set min date
+var dateInput = document.getElementById('dateInput');
+if(dateInput){
+    dateInput.setAttribute('min', new Date().toISOString().split('T')[0]);
+}
+
+// Smooth scroll
+document.querySelectorAll('a[href^="#"]').forEach(function(a){
+    a.addEventListener('click', function(e){
+        var target = document.querySelector(this.getAttribute('href'));
+        if(target){ e.preventDefault(); target.scrollIntoView({behavior:'smooth'}); }
+    });
+});
+
+// Gallery drag scroll
+var gs = document.getElementById('galleryScroll');
+if(gs){
+    var isDown = false, startX, scrollL;
+    gs.addEventListener('mousedown', function(e){ isDown = true; startX = e.pageX - gs.offsetLeft; scrollL = gs.scrollLeft; });
+    gs.addEventListener('mouseleave', function(){ isDown = false; });
+    gs.addEventListener('mouseup', function(){ isDown = false; });
+    gs.addEventListener('mousemove', function(e){ if(!isDown) return; e.preventDefault(); gs.scrollLeft = scrollL - ((e.pageX - gs.offsetLeft - startX) * 2); });
+}
+
+// Reveal on scroll
+var obs = new IntersectionObserver(function(entries){
+    entries.forEach(function(entry){
+        if(entry.isIntersecting){ entry.target.classList.add('vis'); obs.unobserve(entry.target); }
+    });
+}, {threshold: 0.12});
+document.querySelectorAll('.reveal, .reveal-l, .reveal-r').forEach(function(el){ obs.observe(el); });
+
+// Counter animation
+var counterDone = false;
+var counterObs = new IntersectionObserver(function(entries){
+    if(entries[0].isIntersecting && !counterDone){
+        counterDone = true;
+        document.querySelectorAll('.hero-stat-num').forEach(function(el){
+            var target = parseInt(el.dataset.count);
+            var start = performance.now();
+            var dur = 1500;
+            function tick(now){
+                var p = Math.min((now - start) / dur, 1);
+                var eased = 1 - Math.pow(1 - p, 3);
+                el.textContent = Math.round(target * eased) + (target >= 1000 ? '+' : '+');
+                if(p < 1) requestAnimationFrame(tick);
+            }
+            requestAnimationFrame(tick);
+        });
+    }
+}, {threshold: 0.3});
+var heroEl = document.querySelector('.hero');
+if(heroEl) counterObs.observe(heroEl);
+</script>
+</body>
+</html>
